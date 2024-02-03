@@ -15,3 +15,13 @@ from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 
 from .models import *
 from .serializers import *
+
+class UserView(generics.ListCreateAPIView):
+     queryset = User.objects.all()
+     serializer_class = UserSerializer
+     
+class TransactionView(generics.ListCreateAPIView):
+     queryset = Transaction.objects.all()
+     serializer_class = TransactionSerializer
+     
+     
