@@ -30,8 +30,9 @@ class Transaction(models.Model):
     receiver = models.CharField(max_length=255)
     receiver_category = models.CharField(max_length=255)
     advice = models.CharField(max_length=1000)
+    t_type = models.CharField(max_length=100)
     
     
 
     def __str__(self):
-        return self.user.username + '___:___ ' + self.sender  + '___:___ ' + str(self.amount) + '___:___ ' + self.receiver 
+        return self.user.username + '___:___ ' + self.sender  + '___:___ ' + str(self.amount) + '___:___ ' + self.receiver  + '___:___ ' + self.t_type 

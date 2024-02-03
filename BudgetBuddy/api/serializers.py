@@ -11,12 +11,14 @@ import json
 import ast
 from asteval import Interpreter
 import ast
+from goto import with_goto
+from goto import goto, label
 aeval = Interpreter()
 
 
 
 openai.organization = "org-cRn4NpYi0Ew4VA8lvOsfRIBN"
-openai.api_key ="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"
+openai.api_key =os.environ.get("OPENAI_KEY")
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -43,6 +45,7 @@ class UserSerializer(serializers.ModelSerializer):
 class TransactionSerializer(serializers.ModelSerializer):
     timestamp = serializers.CharField(required=False, read_only=True)
     sender = serializers.CharField(required=False, read_only=True)
+    t_type = serializers.CharField(required=False, read_only=True)
     receiver = serializers.CharField(required=False, read_only=True)
     amount = serializers.DecimalField(required=False, read_only=True, max_digits = 10, decimal_places=3)
     receiver_category = serializers.CharField(required=False, read_only=True)
@@ -50,7 +53,7 @@ class TransactionSerializer(serializers.ModelSerializer):
     status = serializers.CharField(required=False, read_only=True)
     class Meta:
         model = Transaction
-        fields = ['username','all_messages','timestamp', 'sender', 'receiver', 'amount','receiver_category','advice','status']
+        fields = ['username','all_messages','timestamp', 'sender', 'receiver', 'amount','receiver_category','advice','status','t_type']
 
     def create(self, data):          
         c_user = User.objects.get(username=data.get('username'))
@@ -72,7 +75,7 @@ class TransactionSerializer(serializers.ModelSerializer):
                 print("Data Already Exists , skipping OPENAI api call")
                 continue
             else:
-                data['timestamp'],data['sender'],data['receiver'],data['receiver_category'], data['amount']  = self.get_receiver(g)
+                data['t_type'],data['sender'],data['receiver'],data['receiver_category'], data['amount']  = self.get_receiver(g)
                 data['advice'] = 'future implementation incoming'
                 newtrans= Transaction.objects.create(
                     username = data.get("username"),
@@ -83,7 +86,8 @@ class TransactionSerializer(serializers.ModelSerializer):
                     amount = data["amount"],
                     receiver = data["receiver"],
                 receiver_category = data["receiver_category"],
-                advice = data['advice']
+                advice = data['advice'],
+                t_type=data['t_type'],
                 )
             
                 newtrans.save()
@@ -97,6 +101,8 @@ class TransactionSerializer(serializers.ModelSerializer):
         match = amount_pattern.search(text)
         amount_spent = match.group(1)
         return amount_spent
+    
+    @with_goto
     def get_receiver(self, single_message):
         single_message = single_message.strip('][').split(',')
         timestamp = single_message[0]
@@ -110,15 +116,16 @@ class TransactionSerializer(serializers.ModelSerializer):
 
         {notif}
 
+        "transaction_type": "<debit_or_credit>",
+        "receiver": "<receiver>",
+        "receiver_category": "<receiver_category>"
 
-            "timestamp": "<timestamp>",
-            "receiver": "<receiver>",
-            "receiver_category": "<receiver_category>"
-
-        Ensure that the output adheres to the specified structure, with the timestamp representing the time of the financial message, the receiver indicating the recipient, and the receiver_category denoting a limited set of categories such as 'Entertainment,' 'Food,' 'Medical' or 'Individual Person.' """
+        Ensure that the output adheres to the specified structure, with the timestamp representing the transaction_type of the financial message to a limited set of "Debit" ,"Credit". the receiver indicating the recipient, and the receiver_category denoting a limited set of categories such as 'Entertainment,' 'Food,' 'Medical' or 'Individual Person.' """
         prompt = t
 
         content=f"""Please give proper JSON format answer"""
+        
+        label .begin
         completion = openai.ChatCompletion.create(
             model="gpt-3.5-turbo-0125",
             messages=[
@@ -128,6 +135,13 @@ class TransactionSerializer(serializers.ModelSerializer):
         )
 
         res=completion.choices[0].message
+        print(res['content'])
         res['content'] = res['content'].replace("\n", "")
-        data_3 = json.loads(res['content'])
-        return timestamp,sender,data_3['receiver'], data_3['receiver_category'],float(amount)
+        # print(res['content'])
+        try : 
+            data_3 = json.loads(res['content'])
+        except json.decoder.JSONDecodeError:
+            goto .begin
+            
+            
+        return data_3['transaction_type'].lower(),sender,data_3['receiver'], data_3['receiver_category'],float(amount)
