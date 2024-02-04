@@ -22,10 +22,18 @@ Provide downloadable/exportable reports for users' convenience.
 - Create a unified dashboard that displays a consolidated overview of expenditures from all linked bank accounts and financial apps.
 Use visualizations and charts to present data in an easily understandable format.
 
+![image](https://github.com/Ninja2k3/Hack4Soc2.0_Meandthebois/assets/112196928/60b9a7c1-7ec4-41e5-b8b7-310f63c7a02c)
+
+![image](https://github.com/Ninja2k3/Hack4Soc2.0_Meandthebois/assets/112196928/41fc7c19-efca-40f9-8f90-048a75eeab10)
+
+
 ## Real-time Updates:
 
 - Ensure that the consolidated report is updated in real-time, reflecting the latest transactions across all linked accounts and apps.
 Implement background processes to periodically sync data from connected sources.
+
+![image](https://github.com/Ninja2k3/Hack4Soc2.0_Meandthebois/assets/112196928/27d45116-a467-459a-b11f-f241c27ed691)
+
 
 ##App Integration:
 
