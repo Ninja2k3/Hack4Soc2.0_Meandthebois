@@ -9,6 +9,9 @@ Provide a secure and user-friendly authentication process for linking bank accou
 - Implement intelligent categorization algorithms to automatically classify transactions from different sources into common expense categories.
 Allow users to manually adjust or override automatic categorizations
 
+![image](https://github.com/Ninja2k3/Hack4Soc2.0_Meandthebois/assets/112196928/82b6b84d-c57e-43b3-842a-b9edad096604)
+
+
 ## Customizable Reports:
 
 - Enable users to customize their consolidated reports based on criteria such as date range, specific accounts, or categories.
