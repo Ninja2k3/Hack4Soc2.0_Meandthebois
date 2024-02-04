@@ -1,5 +1,5 @@
 # BudgetBuddy
-##M ulti-Bank Integration:
+## Multi-Bank Integration:
 
 - Implement APIs or third-party services to integrate with multiple banks, allowing users to link their accounts from different financial institutions.
 Provide a secure and user-friendly authentication process for linking bank accounts.
