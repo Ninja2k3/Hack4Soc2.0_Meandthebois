@@ -1,25 +1,25 @@
 # BudgetBuddy
-##Multi-Bank Integration:
+##M ulti-Bank Integration:
 
 - Implement APIs or third-party services to integrate with multiple banks, allowing users to link their accounts from different financial institutions.
 Provide a secure and user-friendly authentication process for linking bank accounts.
 
-##Transaction Categorization:
+## Transaction Categorization:
 
 - Implement intelligent categorization algorithms to automatically classify transactions from different sources into common expense categories.
 Allow users to manually adjust or override automatic categorizations
 
-##Customizable Reports:
+## Customizable Reports:
 
--Enable users to customize their consolidated reports based on criteria such as date range, specific accounts, or categories.
+- Enable users to customize their consolidated reports based on criteria such as date range, specific accounts, or categories.
 Provide downloadable/exportable reports for users' convenience.
 
-##Unified Dashboard:
+## Unified Dashboard:
 
 - Create a unified dashboard that displays a consolidated overview of expenditures from all linked bank accounts and financial apps.
 Use visualizations and charts to present data in an easily understandable format.
 
-##Real-time Updates:
+## Real-time Updates:
 
 - Ensure that the consolidated report is updated in real-time, reflecting the latest transactions across all linked accounts and apps.
 Implement background processes to periodically sync data from connected sources.
